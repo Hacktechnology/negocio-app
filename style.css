@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+:root {
+    --gradiente-azul: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradiente-verde: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    --gradiente-oro: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+    --danger: #e74c3c;
+    --bg-app: #f8f9fc;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-app);
+    margin: 0;
+    padding: 20px;
+}
+
+.container-list { max-width: 450px; margin: 0 auto; }
+
+.header-app { text-align: center; margin-bottom: 25px; }
+
+.repartidor-img { width: 100px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1)); }
+
+.card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.card-activa::before { content: ""; position: absolute; top: 0; left: 0; width: 6px; height: 100%; background: var(--gradiente-azul); }
+.card-finalizada::before { content: ""; position: absolute; top: 0; left: 0; width: 6px; height: 100%; background: var(--gradiente-oro); }
+
+.label { font-size: 10px; font-weight: 600; color: #b0b0b0; text-transform: uppercase; display: block; }
+
+.info-principal { font-size: 20px; font-weight: 600; margin: 5px 0; color: #2d3436; }
+
+input {
+    width: 100%; padding: 14px; margin: 8px 0; border-radius: 12px;
+    border: 2px solid #eee; box-sizing: border-box; font-family: inherit;
+}
+
+button {
+    width: 100%; padding: 15px; border: none; border-radius: 15px;
+    font-weight: 600; color: white; cursor: pointer; transition: 0.2s;
+}
+
+.btn-whatsapp { background: var(--gradiente-verde); margin-bottom: 10px; }
+.btn-delivery { background: var(--gradiente-azul); }
+.btn-negocio { background: var(--gradiente-azul); }
+.btn-borrar { background: var(--danger); font-size: 12px; padding: 8px; margin-top: 10px; }
+
+#aviso-audio {
+    background: #ff9f43; color: white; text-align: center;
+    padding: 10px; border-radius: 10px; margin-bottom: 20px; cursor: pointer;
+}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Negocio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header-app">
+        <h2>📝 Registro de Ventas</h2>
+    </div>
+
+    <div class="container-list">
+        <div class="card card-activa">
+            <span class="label">Cliente</span>
+            <input type="text" id="cliente" placeholder="Nombre">
+            <span class="label">WhatsApp</span>
+            <input type="tel" id="telefono" placeholder="Ej: 4260869376">
+            <span class="label">Producto</span>
+            <input type="text" id="producto" placeholder="¿Qué ordenó?">
+            <span class="label">Dirección</span>
+            <input type="text" id="direccion" placeholder="Dirección de entrega">
+            <button class="btn-negocio" onclick="enviarPedido()">🔔 Enviar al Repartidor</button>
+        </div>
+
+        <h3 style="text-align:center; margin-top:40px;">⭐ Historial de Entregas</h3>
+        <div id="historial-pedidos"></div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+        import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBw...", // USA TU API KEY
+            databaseURL: "https://deliverynegocio-be953-default-rtdb.firebaseio.com",
+            projectId: "deliverynegocio-be953",
+            appId: "1:570590262914:web:..."
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        window.enviarPedido = function() {
+            const cliente = document.getElementById('cliente').value;
+            const tel = document.getElementById('telefono').value.replace(/\D/g,'');
+            const producto = document.getElementById('producto').value;
+            const direccion = document.getElementById('direccion').value;
+
+            if(!cliente || !tel || !producto || !direccion) return alert("Completa los datos");
+
+            set(ref(db, 'pedidos/' + Date.now()), { 
+                cliente, telefono: tel, producto, direccion, estado: "Activo" 
+            }).then(() => {
+                alert("Pedido en ruta");
+                document.querySelectorAll('input').forEach(i => i.value = "");
+            });
+        }
+
+        onValue(ref(db, 'pedidos/'), (snapshot) => {
+            const data = snapshot.val();
+            const historial = document.getElementById('historial-pedidos');
+            historial.innerHTML = "";
+            if(!data) return;
+
+            for(let id in data) {
+                if(data[id].estado === "Finalizado") {
+                    historial.innerHTML += `
+                        <div class="card card-finalizada">
+                            <span class="label">Cliente: ${data[id].cliente}</span>
+                            <p class="info-principal">${"⭐".repeat(data[id].calificacion)}</p>
+                            <p style="font-size:12px;">Entregó: ${data[id].producto}</p>
+                            <button class="btn-borrar" onclick="borrarRegistro('${id}')">Eliminar</button>
+                        </div>
+                    `;
+                }
+            }
+        });
+
+        window.borrarRegistro = (id) => { if(confirm("¿Borrar?")) remove(ref(db, 'pedidos/' + id)); }
+    </script>
+</body>
+</html>
+

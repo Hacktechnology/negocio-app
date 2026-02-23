@@ -1,0 +1,16 @@
+{
+  "name": "Negocio Pro",
+  "short_name": "Negocio",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#764ba2",
+  "theme_color": "#764ba2",
+  "icons": [
+    {
+      "src": "icono_negocio.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
